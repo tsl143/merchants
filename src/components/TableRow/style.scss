@@ -1,0 +1,46 @@
+.row {
+	background: #fff;
+	margin: 10px 0;
+
+	td {
+	    border: none;
+	    padding: 5px 20px;
+		.avtar {
+			display: block;
+			width: 30px;
+			height:30px;
+			overflow: hidden;
+			border-radius: 50%;
+
+			img {
+				width: 100%;
+				height: auto;
+			}
+		}
+		.premium {
+			background: red;
+			display: block;
+			width: 20px;
+			height: 20px;
+
+			&.yes {
+				background: green;
+			}
+		}
+
+		&:first-child {
+			padding-right: 5px;
+		}
+
+		&:nth-child(2) {
+			padding-left: 0;
+		}
+	}
+
+	.actions {
+		a {
+			display: inline-block;
+			margin: 0 10px;
+		}
+	}
+}

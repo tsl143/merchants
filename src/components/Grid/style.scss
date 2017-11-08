@@ -1,0 +1,12 @@
+@import '../../shared/variables.scss';
+
+.list {
+	border-collapse: separate;
+	border-spacing: 0 10px;
+	width: 100%;
+
+	th {
+		text-align: left;
+		padding: 5px 20px;
+	}
+}

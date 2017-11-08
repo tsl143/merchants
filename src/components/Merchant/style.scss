@@ -1,0 +1,110 @@
+@import '../../shared/variables.scss';
+
+.merchantHolder {
+	display: flex;
+}
+.input {
+	border: 0;
+    padding: 10px;
+    background: #F4F8F9;
+    font-size: 14px;
+    width: calc(100% - 20px);
+}
+
+.inputHolder {
+	display: inline-block;
+    margin: 20px 10px;
+    position: relative;
+    width: calc(50% - 20px);
+
+	&:after {
+		content: attr(data-label);
+		opacity: 1;
+		position: absolute;
+	    display: block;
+	    top: -15px;
+	    left: 0;
+	    font-size:12px;
+	}
+
+	&.active {
+		&:after {
+			opacity: 1;
+		}
+	}
+}
+
+.merchant {
+    background: #fff;
+    width: 540px;
+    margin: 20px;
+    padding: 20px 10px 10px;
+    position: relative;
+
+    &:after {
+		content: attr(data-label);
+	    opacity: 1;
+	    position: absolute;
+	    display: block;
+	    top: -15px;
+	    left: calc(50% - 65px);
+	    background: #a8a8a8;
+	    padding: 5px 10px;
+	    width: 130px;
+	    text-align: center;
+	}
+}
+
+.addBids {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: #00A9FF;
+    padding: 5px 30px;
+    font-size: 12px;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.actions {
+	text-align: center;
+}
+
+.save {
+    width: 200px;
+    display: inline-block;
+    border: 0;
+    background: #fff;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #888;
+    text-align: center;
+    text-decoration: none;
+    color: #888 !important;
+    margin: 10px;
+
+    &:disabled {
+    	background: #a9a9a9;
+    }
+}
+
+.merchantBids {
+	border-bottom: 2px solid #F4F8F9;
+
+    .inputHolder {
+        width: calc(50% - 35px);
+    }
+
+    a {
+        color: red;
+        cursor: pointer;
+        display: inline-block;
+        margin: 10px;
+    }
+}
+
+.error {
+    text-align: center;
+    color: red;
+}

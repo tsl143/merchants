@@ -1,0 +1,36 @@
+.bids {
+    background: #F4F9F8;
+    font-size: 12px;
+    padding: 3px 10px;
+    position: relative;
+    margin-right: 5px;
+    border-radius: 3px;
+
+    .carTitle {
+    	display: none;
+	    position: absolute;
+	    background: #000;
+	    top: -20px;
+	    left: calc(50% - 20px);
+	    color: #fff;
+	    padding: 2px 5px;
+	}
+
+	&:hover .carTitle{
+		display: block;
+	}
+}
+
+.moreBids {
+    cursor: pointer;
+}
+
+.overlay {
+    position: absolute;
+    left: 0;
+    height: 100vh;
+    right: 0;
+    top: 0;
+    z-index: 9;
+    background: rgba(0,0,0, 0.7);
+}
