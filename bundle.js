@@ -30363,7 +30363,7 @@ function Merchant() {
 			return _extends({}, tempState, { isRefresh: true });
 			break;
 		default:
-			return state;
+			return tempState;
 	}
 }
 
@@ -30496,7 +30496,8 @@ var mapStateToProps = function mapStateToProps(state) {
         merchants: state.merchants.dataList || [],
         merchantsCount: state.merchants.count || 0,
         currentPage: state.merchants.page || 1,
-        isDelete: state.merchants.delete || false
+        isDelete: state.merchants.delete || false,
+        isRefresh: state.merchants.isRefresh || false
     };
 };
 
