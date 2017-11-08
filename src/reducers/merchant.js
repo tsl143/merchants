@@ -8,7 +8,8 @@ export default function Merchant(state = [], action) {
 			break;
 		case 'LIST':
 			const dataList = action.payload.data? action.payload.data : [];
-			return { ...tempState, dataList, page: action.payload.page }
+			const count = action.payload.count? action.payload.count : 0;
+			return { ...tempState, dataList, count, page: action.payload.page,  }
 			break;
 		case 'COUNT':
 			return { ...tempState, count: action.payload.data }

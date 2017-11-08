@@ -16,7 +16,6 @@ const props = {
         delete: false,
 	} ,
 	getMerchants: jest.fn(),
-	getMerchantsCount: jest.fn(),
 }
 
 describe('TableRow Component', () => {

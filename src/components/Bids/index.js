@@ -18,6 +18,19 @@ export default class Bids extends Component {
         this.setState({ showBids })
     }
 
+    prepareBids(bids) {
+        return bids.map(entry => {
+            return (
+                <span className={Styles.bids} key={entry.id}>
+                    {entry.amount}
+                    <span className={Styles.carTitle}>
+                        {entry.carTitle}
+                    </span>
+                </span>
+            )
+        });
+    }
+
     render() {
     	const { bids } = this.props;
         const sortedBids = sortBidsByDate(bids) || [];
@@ -26,16 +39,7 @@ export default class Bids extends Component {
         if(sortedBids.length > MAX_BIDS_ON_LIST) {
             let trimmedBids = [ ...sortedBids ];
             trimmedBids = trimmedBids.splice(0, MAX_BIDS_ON_LIST);
-            myBids = trimmedBids.map(entry => {
-                return (
-                    <span className={Styles.bids} key={entry.id}>
-                        {entry.amount}
-                        <span className={Styles.carTitle}>
-                            {entry.carTitle}
-                        </span>
-                    </span>
-                )
-            });
+            myBids = this.prepareBids(trimmedBids);
             myBids.push(
                 <span className={`${Styles.bids} ${Styles.moreBids}`} onClick={this.handleShowBids.bind(this, true)} key="moreBids">
                     ...
@@ -43,16 +47,7 @@ export default class Bids extends Component {
             )
 
         }else{
-            myBids = sortedBids.map(entry => {
-                return (
-                    <span className={Styles.bids} key={entry.id}>
-                        {entry.amount}
-                        <span className={Styles.carTitle}>
-                            {entry.carTitle}
-                        </span>
-                    </span>
-                )
-            });
+            myBids = this.prepareBids(sortedBids)
         }
 
         return (

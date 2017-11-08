@@ -74,26 +74,31 @@ class Add extends Component {
         });
     }
 
+    handleBidChange(index, name, e) {
+        let value = e.target.value || '';
+        if(name ==='amount'){
+            if(isNaN(value) || value ==='')
+                value = 0;
+            else
+                value= parseInt(value, 10);
+        }
+        this.setState((prevState) => {
+            const { bids } = { ...prevState };
+            bids[index][name] = value;
+            return { bids }
+        });
+    }
+
     addBid() {
         this.setState((prevState) => {
             const { bids } = { ...prevState };
             const created = getTime();
             bids.push({ 
                 id: created,
-                amount:'',
+                amount:0,
                 carTitle: '',
                 created
             });
-            return { bids }
-        });
-    }
-
-    handleBidChange(index, name, e) {
-        let value = e.target.value || '';
-        value =(name ==='amount' && value !=='') ? parseInt(value, 10): value;
-        this.setState((prevState) => {
-            const { bids } = { ...prevState };
-            bids[index][name] = value;
             return { bids }
         });
     }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { getMerchants, getMerchantsCount } from '../../actions/merchant';
+import { getMerchants } from '../../actions/merchant';
 import Grid from '../Grid';
 import Pagination from '../Pagination';
 import Styles from './style.scss';
@@ -17,7 +17,6 @@ class List extends Component {
     }
 
     fetchData() {
-        this.props.getMerchantsCount();
         this.props.getMerchants(this.props.currentPage);
     }
 
@@ -56,7 +55,6 @@ class List extends Component {
 const mapDispatchToProps = dispatch => {
     return {
         getMerchants: (page) => dispatch(getMerchants(page)),
-        getMerchantsCount: () => dispatch(getMerchantsCount())
     }
 }
 

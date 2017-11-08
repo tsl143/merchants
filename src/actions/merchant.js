@@ -18,7 +18,7 @@ export const getMerchants = page => {
     .then( response => {
     	return {
     		type: 'LIST',
-    		payload: { data: response.data, page }
+            payload: { data: response.data, count: response.headers['x-total-count'], page }
     	}
     })
     .catch( error => {
@@ -28,25 +28,6 @@ export const getMerchants = page => {
         }
     } );
 }
-
-export const getMerchantsCount = () => {
-    const dataUrl = `${apiURL}/merchants`;
-    return axios
-    .get(dataUrl)
-    .then( response => {
-        return {
-            type: 'COUNT',
-            payload: { data: response.data.length }
-        }
-    })
-    .catch( error => {
-        return {
-            type: 'COUNT',
-            payload: { data: 0, error }
-        }
-    } );
-}
-
 
 export const getMerchant = id => {
     Store.dispatch(showLoader());

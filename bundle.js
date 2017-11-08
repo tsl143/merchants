@@ -1788,7 +1788,7 @@ var locationsAreEqual = function locationsAreEqual(a, b) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.updateMerchant = exports.saveMerchant = exports.deleteMerchant = exports.getMerchant = exports.getMerchantsCount = exports.getMerchants = undefined;
+exports.updateMerchant = exports.saveMerchant = exports.deleteMerchant = exports.getMerchant = exports.getMerchants = undefined;
 exports.showLoader = showLoader;
 
 var _axios = __webpack_require__(137);
@@ -1816,27 +1816,12 @@ var getMerchants = exports.getMerchants = function getMerchants(page) {
     return _axios2.default.get(dataUrl).then(function (response) {
         return {
             type: 'LIST',
-            payload: { data: response.data, page: page }
+            payload: { data: response.data, count: response.headers['x-total-count'], page: page }
         };
     }).catch(function (error) {
         return {
             type: 'LIST',
             payload: { data: 0, page: page, error: error }
-        };
-    });
-};
-
-var getMerchantsCount = exports.getMerchantsCount = function getMerchantsCount() {
-    var dataUrl = apiURL + '/merchants';
-    return _axios2.default.get(dataUrl).then(function (response) {
-        return {
-            type: 'COUNT',
-            payload: { data: response.data.length }
-        };
-    }).catch(function (error) {
-        return {
-            type: 'COUNT',
-            payload: { data: 0, error: error }
         };
     });
 };
@@ -5141,31 +5126,34 @@ var Add = function (_Component) {
             });
         }
     }, {
-        key: 'addBid',
-        value: function addBid() {
+        key: 'handleBidChange',
+        value: function handleBidChange(index, name, e) {
+            var value = e.target.value || '';
+            if (name === 'amount') {
+                if (isNaN(value) || value === '') value = 0;else value = parseInt(value, 10);
+            }
             this.setState(function (prevState) {
                 var _prevState = _extends({}, prevState),
                     bids = _prevState.bids;
 
-                var created = (0, _utility.getTime)();
-                bids.push({
-                    id: created,
-                    amount: '',
-                    carTitle: '',
-                    created: created
-                });
+                bids[index][name] = value;
                 return { bids: bids };
             });
         }
     }, {
-        key: 'handleBidChange',
-        value: function handleBidChange(index, name, e) {
-            var value = e.target.value || '';
+        key: 'addBid',
+        value: function addBid() {
             this.setState(function (prevState) {
                 var _prevState2 = _extends({}, prevState),
                     bids = _prevState2.bids;
 
-                bids[index][name] = parseInt(value, 10);
+                var created = (0, _utility.getTime)();
+                bids.push({
+                    id: created,
+                    amount: 0,
+                    carTitle: '',
+                    created: created
+                });
                 return { bids: bids };
             });
         }
@@ -30374,7 +30362,8 @@ function Merchant() {
 			break;
 		case 'LIST':
 			var dataList = action.payload.data ? action.payload.data : [];
-			return _extends({}, tempState, { dataList: dataList, page: action.payload.page });
+			var count = action.payload.count ? action.payload.count : 0;
+			return _extends({}, tempState, { dataList: dataList, count: count, page: action.payload.page });
 			break;
 		case 'COUNT':
 			return _extends({}, tempState, { count: action.payload.data });
@@ -30456,7 +30445,6 @@ var List = function (_Component) {
     _createClass(List, [{
         key: 'fetchData',
         value: function fetchData() {
-            this.props.getMerchantsCount();
             this.props.getMerchants(this.props.currentPage);
         }
     }, {
@@ -30519,9 +30507,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
         getMerchants: function getMerchants(page) {
             return dispatch((0, _merchant.getMerchants)(page));
-        },
-        getMerchantsCount: function getMerchantsCount() {
-            return dispatch((0, _merchant.getMerchantsCount)());
         }
     };
 };
@@ -31760,6 +31745,22 @@ var Bids = function (_Component) {
             this.setState({ showBids: showBids });
         }
     }, {
+        key: 'prepareBids',
+        value: function prepareBids(bids) {
+            return bids.map(function (entry) {
+                return _react2.default.createElement(
+                    'span',
+                    { className: _style2.default.bids, key: entry.id },
+                    entry.amount,
+                    _react2.default.createElement(
+                        'span',
+                        { className: _style2.default.carTitle },
+                        entry.carTitle
+                    )
+                );
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             var bids = this.props.bids;
@@ -31770,36 +31771,14 @@ var Bids = function (_Component) {
             if (sortedBids.length > MAX_BIDS_ON_LIST) {
                 var trimmedBids = [].concat(_toConsumableArray(sortedBids));
                 trimmedBids = trimmedBids.splice(0, MAX_BIDS_ON_LIST);
-                myBids = trimmedBids.map(function (entry) {
-                    return _react2.default.createElement(
-                        'span',
-                        { className: _style2.default.bids, key: entry.id },
-                        entry.amount,
-                        _react2.default.createElement(
-                            'span',
-                            { className: _style2.default.carTitle },
-                            entry.carTitle
-                        )
-                    );
-                });
+                myBids = this.prepareBids(trimmedBids);
                 myBids.push(_react2.default.createElement(
                     'span',
                     { className: _style2.default.bids + ' ' + _style2.default.moreBids, onClick: this.handleShowBids.bind(this, true), key: 'moreBids' },
                     '...'
                 ));
             } else {
-                myBids = sortedBids.map(function (entry) {
-                    return _react2.default.createElement(
-                        'span',
-                        { className: _style2.default.bids, key: entry.id },
-                        entry.amount,
-                        _react2.default.createElement(
-                            'span',
-                            { className: _style2.default.carTitle },
-                            entry.carTitle
-                        )
-                    );
-                });
+                myBids = this.prepareBids(sortedBids);
             }
 
             return _react2.default.createElement(
