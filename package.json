@@ -15,15 +15,12 @@
     "babel-loader": "^7.1.2",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "node-sass": "^4.5.3",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
-    "redux-promise": "^0.5.3",
-    "webpack": "^3.5.6",
-    "webpack-dev-server": "^2.7.1"
+    "redux-promise": "^0.5.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -34,8 +31,12 @@
     "enzyme-adapter-react-16": "^1.0.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^21.2.1",
+    "node-sass": "^4.5.3",
     "redux-mock-store": "^1.3.0",
     "sass-loader": "^6.0.6",
-    "style-loader": "^0.19.0"
-  }
+    "style-loader": "^0.19.0",
+    "webpack": "^3.5.6",
+    "webpack-dev-server": "^2.7.1"
+  },
+  "license": "MIT"
 }

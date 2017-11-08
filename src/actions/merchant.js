@@ -1,7 +1,16 @@
 import axios from 'axios';
+import Store from '../reducers/store';
 
 const apiURL = "https://intense-tor-76305.herokuapp.com";
+export function showLoader() {
+    return {
+        type: 'LOADER',
+        payload: true
+    };
+}
+
 export const getMerchants = page => {
+    Store.dispatch(showLoader());
     page = page || 1;
 	const dataUrl = `${apiURL}/merchants?_page=${page}`;
     return axios
@@ -27,7 +36,7 @@ export const getMerchantsCount = () => {
     .then( response => {
         return {
             type: 'COUNT',
-            payload: response.data.length
+            payload: { data: response.data.length }
         }
     })
     .catch( error => {
@@ -40,13 +49,14 @@ export const getMerchantsCount = () => {
 
 
 export const getMerchant = id => {
+    Store.dispatch(showLoader());
     const dataUrl = `${apiURL}/merchants/${id}`;
     return axios
     .get(dataUrl)
     .then( response => {
         return {
             type: 'MERCHANT',
-            payload: response.data
+            payload: { data: response.data }
         }
     })
     .catch( error => {
@@ -58,6 +68,7 @@ export const getMerchant = id => {
 }
 
 export const deleteMerchant = id => {
+    Store.dispatch(showLoader());
     const dataUrl = `${apiURL}/merchants/${id}`;
     return axios({
         method: 'DELETE',
@@ -78,6 +89,7 @@ export const deleteMerchant = id => {
 }
 
 export const saveMerchant = data => {
+    Store.dispatch(showLoader());
     const dataUrl = `${apiURL}/merchants/${data.id}`;
     return axios({
       method: 'POST',
@@ -99,6 +111,7 @@ export const saveMerchant = data => {
 }
 
 export const updateMerchant = data => {
+    Store.dispatch(showLoader());
     if(!data.id){
         return {
             type: 'UPDATE',

@@ -46,6 +46,9 @@ class TableRow extends Component {
         return (
         	<tbody>
         		{rowData}
+                {rowData.length==0 &&
+                    <tr className={`${Styles.row} ${Styles.noRow}`}><td colSpan="7">No data</td></tr>
+                }
         	</tbody>
         )
     }

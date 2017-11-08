@@ -1,17 +1,20 @@
 export default function Merchant(state = [], action) {
 
-	const tempState = { ...state, isRefresh: false, isSaved: false }
+	const tempState = { ...state, isRefresh: false, isSaved: false, isLoading: false, isError: false }
 	
 	switch(action.type) {
+		case 'LOADER':
+			return { ...tempState, isLoading: true }
+			break;
 		case 'LIST':
-			const dataList = action.payload.data? action.payload.data : []
+			const dataList = action.payload.data? action.payload.data : [];
 			return { ...tempState, dataList, page: action.payload.page }
 			break;
 		case 'COUNT':
-			return { ...tempState, count: action.payload }
+			return { ...tempState, count: action.payload.data }
 			break;
 		case 'MERCHANT':
-			return { ...tempState, merchant: action.payload }
+			return { ...tempState, merchant: action.payload.data }
 			break;
 		case 'ADD':
 			return { ...tempState, saveData: action.payload, isSaved: true }

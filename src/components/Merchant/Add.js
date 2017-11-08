@@ -89,7 +89,8 @@ class Add extends Component {
     }
 
     handleBidChange(index, name, e) {
-        const value = e.target.value || '';
+        let value = e.target.value || '';
+        value =(name ==='amount' && value !=='') ? parseInt(value, 10): value;
         this.setState((prevState) => {
             const { bids } = { ...prevState };
             bids[index][name] = value;
@@ -123,9 +124,9 @@ class Add extends Component {
         }
         if(allSet && data.bids.length != 0) {
             data.bids.forEach(bid => {
-                if(!validateInput(bid.carTitle,['required','text'])) {
+                if(!validateInput(bid.carTitle,['required','alphaNumeric'])) {
                     allSet = false;
-                    errorMessage = 'Car Name not Valid (only text)';
+                    errorMessage = 'Car Name not Valid (only alphabets and numbers)';
                 }
                 if(allSet && !validateInput(bid.amount,['required','number'])) {
                     allSet = false;
@@ -278,6 +279,9 @@ class Add extends Component {
                         Save
                     </button>
                 </div>
+                { this.props.isLoading &&
+                    <div id="loaderOverlay"><div id="loader" /></div>
+                }
             </div>
         );
     }
@@ -293,7 +297,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         saveData: state.merchants.saveData || {},
-        isSaved: state.merchants.isSaved || false
+        isSaved: state.merchants.isSaved || false,
+        isLoading: state.merchants.isLoading || false
     }
 }
 

@@ -32,7 +32,7 @@ class List extends Component {
     }
 
     render() {
-    	const { merchants, currentPage, merchantsCount } = this.props;
+        const { currentPage, isLoading, merchants, merchantsCount } = this.props;
         const pagesCount = Math.ceil(merchantsCount/PAGE_SIZE);
 
         return (
@@ -45,6 +45,9 @@ class List extends Component {
             	{ pagesCount > 1 &&
             		<Pagination count={merchantsCount} pagesCount={pagesCount} page={currentPage} paginate={this.paginate.bind(this)}/>
             	}
+                { this.props.isLoading &&
+                    <div id="loaderOverlay"><div id="loader" /></div>
+                }
             </div>
         );        
     }
@@ -62,8 +65,8 @@ const mapStateToProps = state => {
         merchants: state.merchants.dataList || [],
         merchantsCount: state.merchants.count || 0,
         currentPage: state.merchants.page || 1,
-        isDelete: state.merchants.delete || false,
         isRefresh: state.merchants.isRefresh || false,
+        isLoading: state.merchants.isLoading || false,
     }
 }
 

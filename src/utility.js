@@ -5,13 +5,16 @@ export const validateInput = (value, checks=[]) => {
 	checks.forEach(check => {
 		switch(check) {
 			case 'required':
-				allSet = value && (value.trim() !== '');
+				allSet = value && (value.toString().trim() !== '');
 			break;
 			case 'text':
-				allSet = /^[a-zA-Z]+$/u.test(value);
+				allSet = value && /^[a-zA-Z]+$/i.test(value);
 			break;
             case 'number':
 				allSet = value && !isNaN(Number(value));
+			break;
+			case 'alphaNumeric':
+				allSet = value && /^[a-zA-Z0-9 ]+$/i.test(value);
 			break;
 			case 'email':
 				allSet = value && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
